@@ -6,7 +6,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Pozys\\SmartLinks\\": "src/"
+            "Pozys\\SmartLinks\\": "src/",
+            "Pozys\\SmartLinks\\Tests\\": "tests/"
         }
     },
     "authors": [
