@@ -1,0 +1,22 @@
+{
+    "name": "pozys/smart-links",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pozys\\SmartLinks\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Культяпов Константин",
+            "email": "pozys@mail.ru"
+        }
+    ],
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.7"
+    }
+}
