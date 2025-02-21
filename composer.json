@@ -2,12 +2,20 @@
     "name": "pozys/smart-links",
     "type": "project",
     "require-dev": {
-        "phpunit/phpunit": "^12.0"
+        "phpunit/phpunit": "^12.0",
+        "mockery/mockery": "^1.6",
+        "symfony/var-dumper": "^7.2",
+        "fakerphp/faker": "^1.24"
     },
     "autoload": {
         "psr-4": {
             "Pozys\\SmartLinks\\": "src/",
             "Pozys\\SmartLinks\\Tests\\": "tests/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "authors": [
@@ -18,6 +26,13 @@
     ],
     "require": {
         "slim/slim": "4.*",
-        "slim/psr7": "^1.7"
+        "slim/psr7": "^1.7",
+        "php-di/slim-bridge": "^3.4",
+        "illuminate/collections": "^11.43"
+    },
+    "scripts": {
+        "test": [
+            "./vendor/bin/phpunit tests"
+        ]
     }
 }
