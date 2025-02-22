@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Pozys\SmartLinks\Domain\Interfaces;
+namespace Pozys\SmartLinks\Application\Interfaces;
+
+use Pozys\SmartLinks\Domain\Interfaces\{LinkInterface, RedirectLinkInterface};
 
 interface RedirectResolverInterface
 {

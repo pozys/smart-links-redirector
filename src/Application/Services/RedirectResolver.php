@@ -2,27 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Pozys\SmartLinks\Domain\Models;
+namespace Pozys\SmartLinks\Application\Services;
 
+use Pozys\SmartLinks\Application\Interfaces\RedirectLinkRepositoryInterface;
+use Pozys\SmartLinks\Application\Interfaces\RedirectResolverInterface;
 use Pozys\SmartLinks\Domain\Interfaces\{
     LinkInterface,
     RedirectLinkInterface,
-    RedirectLinkProviderInterface,
-    RedirectResolverInterface,
     RuleInterface,
-    RuleProviderInterface
 };
 
 class RedirectResolver implements RedirectResolverInterface
 {
-    public function __construct(
-        private readonly RuleProviderInterface $ruleProvider,
-        private readonly RedirectLinkProviderInterface $redirectLinkProvider,
-    ) {}
+    public function __construct(private readonly RedirectLinkRepositoryInterface $redirectLinkRepository) {}
 
     public function resolve(LinkInterface $link): ?RedirectLinkInterface
     {
-        $redirects = $this->redirectLinkProvider->findRedirects($link);
+        $redirects = $this->redirectLinkRepository->findRedirects($link);
 
         return collect($redirects)
             ->first(

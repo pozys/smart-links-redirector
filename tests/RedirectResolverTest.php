@@ -6,14 +6,13 @@ namespace Pozys\SmartLinks\Tests;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Pozys\SmartLinks\Application\Interfaces\RedirectLinkRepositoryInterface;
+use Pozys\SmartLinks\Application\Services\RedirectResolver;
 use Pozys\SmartLinks\Domain\Interfaces\{
     LinkInterface,
     RedirectLinkInterface,
-    RedirectLinkProviderInterface,
     RuleInterface,
-    RuleProviderInterface
 };
-use Pozys\SmartLinks\Domain\Models\RedirectResolver;
 use Pozys\SmartLinks\Tests\Traits\UseFaker;
 
 final class RedirectResolverTest extends TestCase
@@ -22,9 +21,7 @@ final class RedirectResolverTest extends TestCase
 
     public function testResolvePositive(): void
     {
-        $ruleProvider = $this->createMock(RuleProviderInterface::class);
-
-        $redirectLinkProvider = $this->createMock(RedirectLinkProviderInterface::class);
+        $redirectLinkProvider = $this->createMock(RedirectLinkRepositoryInterface::class);
 
         $rightRedirect = $this->mockRightRedirect();
 
@@ -33,30 +30,26 @@ final class RedirectResolverTest extends TestCase
         $redirectLinkProvider->method('findRedirects')->willReturn([$wrongRedirect, $rightRedirect]);
 
         $link = $this->createMock(LinkInterface::class);
-        $redirectResolver = new RedirectResolver($ruleProvider, $redirectLinkProvider);
+        $redirectResolver = new RedirectResolver($redirectLinkProvider);
 
         $this->assertSame($rightRedirect, $redirectResolver->resolve($link));
     }
 
     public function testResolveRulesNotFound(): void
     {
-        $ruleProvider = $this->createMock(RuleProviderInterface::class);
-
-        $redirectLinkProvider = $this->createMock(RedirectLinkProviderInterface::class);
+        $redirectLinkProvider = $this->createMock(RedirectLinkRepositoryInterface::class);
 
         $redirectLinkProvider->method('findRedirects')->willReturn([]);
 
         $link = $this->createMock(LinkInterface::class);
-        $redirectResolver = new RedirectResolver($ruleProvider, $redirectLinkProvider);
+        $redirectResolver = new RedirectResolver($redirectLinkProvider);
 
         $this->assertNull($redirectResolver->resolve($link));
     }
 
     public function testResolveRulesNotMatch(): void
     {
-        $ruleProvider = $this->createMock(RuleProviderInterface::class);
-
-        $redirectLinkProvider = $this->createMock(RedirectLinkProviderInterface::class);
+        $redirectLinkProvider = $this->createMock(RedirectLinkRepositoryInterface::class);
 
         $wrongRedirect1 = $this->mockWrongRedirect();
 
@@ -65,7 +58,7 @@ final class RedirectResolverTest extends TestCase
         $redirectLinkProvider->method('findRedirects')->willReturn([$wrongRedirect1, $wrongRedirect2]);
 
         $link = $this->createMock(LinkInterface::class);
-        $redirectResolver = new RedirectResolver($ruleProvider, $redirectLinkProvider);
+        $redirectResolver = new RedirectResolver($redirectLinkProvider);
 
         $this->assertNull($redirectResolver->resolve($link));
     }
