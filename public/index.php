@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Application\ResponseEmitter\ResponseEmitter;
 use DI\ContainerBuilder;
-use Slim\Factory\;
+use Slim\Factory\{AppFactory, ServerRequestCreatorFactory};
 
 require __DIR__ . '/../vendor/autoload.php';
 
