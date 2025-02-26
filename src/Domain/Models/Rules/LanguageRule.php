@@ -4,26 +4,11 @@ declare(strict_types=1);
 
 namespace Pozys\SmartLinks\Domain\Models\Rules;
 
-use Pozys\SmartLinks\Domain\Interfaces\{ConditionValueInterface, ValueWrapperInterface, RuleInterface};
+use Pozys\SmartLinks\Domain\Interfaces\ValueWrapperInterface;
 
-class LanguageRule implements RuleInterface
+class LanguageRule extends AbstractRule
 {
-    /** @var ConditionValueInterface[] */
-    private readonly array $conditions;
-
-    public function __construct(ConditionValueInterface ...$conditions)
-    {
-        $this->conditions = $conditions;
-    }
-
-    public function matches(): bool
-    {
-        return collect($this->conditions)->every(
-            fn(ConditionValueInterface $condition): bool => $condition->isSatisfiedBy($this->prepareValue())
-        );
-    }
-
-    private function prepareValue(): ValueWrapperInterface
+    public function getCurrentValue(): ValueWrapperInterface
     {
         return new class() implements ValueWrapperInterface {
             public function getValue(): string
@@ -36,5 +21,15 @@ class LanguageRule implements RuleInterface
                 return strtolower((string) $value);
             }
         };
+    }
+
+    protected static function booted(): void
+    {
+        static::created(function ($rule) {
+            dd(static::class);
+
+            $rule->name = 'static::class';
+            $rule->save();
+        });
     }
 }

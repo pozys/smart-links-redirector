@@ -4,4 +4,14 @@ declare(strict_types=1);
 
 namespace Pozys\SmartLinks\Application\DTO;
 
-class RedirectLinkDto {}
+class RedirectLinkDto
+{
+    /**
+     * @param RuleDto[]|null $rules
+     */
+    public function __construct(
+        public readonly ?int $id = null,
+        public readonly string $url,
+        public readonly ?array $rules = null
+    ) {}
+}
